@@ -1,0 +1,23 @@
+mkdir e-commerce-app
+cd e-commerce-app
+cd user-service
+npm init -y
+npm install express mongoose dotenv nodemon
+
+Build Image
+docker build -t user-service-img:1.0 .
+
+Run container
+docker run -d -p 4949:4949 --name user-service-container user-service-img:1.0
+
+docker ps
+docker ps -a
+
+docker exec -it user-service-container sh
+
+Bind mount volumes
+For windows:
+docker run -d -p 4949:4949 -v ${PWD}:/app --name user-service-container user-service-img:1.0
+
+For mac/linux:
+docker run -d -p 4949:4949 -v "$(pwd)":/app --name user-service-container user-service-img:1.0
