@@ -1,0 +1,82 @@
+Project Title: URL Shortner
+
+Objective: Cover concepts like: APIs, databases, caching, scalability, load balancing and reliability
+
+Core Idea: Long URL -> Short Code -> Redirect to Original URL
+
+Phase-1: Understand the Problem Statement
+Functional Requirements:
+- Shorten a long URL
+- Redirect short URL -> original URL
+- Optional: Click count / analytics
+
+Non-Functional Requirements:
+- Concurrency
+- Fast redirects (Low Latency)
+- Scalable to million of URLs
+- High Availability
+
+Phase-2: Basic Architecture (Single Machine MVP)
+Components:
+1. Client (Browser/Postman/Frontend)
+2. Backend API (Node/Java/Python)
+3. Database (MySQL/MongoDB)
+
+APIs
+POST /shorten
+GET /{shortcode}
+
+What we are going to implement ?
+1. REST APIs
+2. Hash/Base62 short code generator
+3. Store mapping in DB
+4. Redirect Logic
+
+
+Phase-3 - Database Design
+Table:
+id (PK)
+original_url
+short_code (unique)
+created_at
+expires_at
+click_count
+
+
+Phase-4 Short code generation strategy
+Option A - Hashing
+Option B - Auto Increment + Base62
+
+
+Phase-5 - Add Cache (Performance Layer)
+- Introduce Redis
+
+
+Phase-6 - Horizontal Scaling
+- What if traffic explodes ?
+Add:
+Load Balancer
+Multiple Backend servers
+
+
+Phase-7 - High Availability + Reliability
+Add:
+- DB Replication
+- Redis Replication
+- Health checks
+
+Steps to follow:
+1. MVP - APIs + DB
+2. Caching - Performance
+3. Scaling - Load balancing
+4. Replication - Availability
+5. Kafka - Async Systems
+
+
+===============================
+
+Implementation
+
+1. mkdir url-shortner-monolith
+2. cd url-shortner-monolith
+3. npm init -y
