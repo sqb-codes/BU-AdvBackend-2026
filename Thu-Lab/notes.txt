@@ -1,0 +1,35 @@
+1. mkdir e-commerce-app
+2. cd e-commerce-app
+3. mkdir user-service
+4. cd user-service
+5. npm init -y
+6. npm install express nodemon mongoose dotenv cors
+7. Create one file app.js (to maintain server)
+8. Create .env and put PORT no...
+9. Create Dockerfile
+10. Open terminal and run these commands:
+Show all processes
+docker ps -a
+
+Build a new image
+docker build -t userservice:1.0 .
+-t = tag - we give a name to our image
+
+
+Now let's run the container
+docker run -d -p 9898:9898 --name userservice_container userservice:1.0
+-d = detach mode
+-p = port forwarding
+--name = container name
+
+To enter into interactive shell of container:
+docker exec -it userservice_container sh
+
+
+Bind mount
+For windows:
+docker run -d -p 9898:9898 -v (pwd):/app --name userservice_container userservice:1.0
+
+For mac/linux
+docker run -d -p 9898:9898 -v "$(pwd)":/app --name userservice_container userservice:1.0
+
