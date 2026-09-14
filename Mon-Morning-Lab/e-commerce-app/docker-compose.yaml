@@ -1,0 +1,18 @@
+services:
+  user-service-node-app:
+    build: ./user-service
+    ports:
+      - "4949:3000"
+    environment:
+      - PORT=3000
+
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - mongodb:/data/db
+
+volumes:
+  mongodb:
