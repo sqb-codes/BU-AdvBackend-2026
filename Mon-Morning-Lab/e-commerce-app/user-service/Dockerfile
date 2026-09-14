@@ -10,7 +10,13 @@ COPY package*.json ./
 # Install dependencies
 # RUN npm install
 # Install dependencies first and then later get from cache
-RUN npm ci
+# RUN npm ci
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "development" ]; \
+    then npm install; \
+    else npm install --only=production; \
+    fi
+
 
 # Copy all the remaining files from source to destination
 # source - my local working directory
