@@ -1,0 +1,39 @@
+mkdir e-commerce-app
+cd e-commerce-app
+cd user-service
+
+npm init -y
+npm install express nodemon mongoose dotenv
+
+Build image:
+docker build -t user-service-img:v1.0 .
+-t = tag => image name
+
+Run container
+docker run -d -p 5050:5050 --name user-service-container user-service-img:v1.0
+-d = detach mode
+-p = port forwarding
+--name = container name
+
+
+For windows
+docker run -d -p 5050:5050 -v (pwd):/app --name user-service-container user-service-img:v1.0
+
+For mac/linux
+docker run -d -p 5050:5050 -v "$(pwd)":/app --name user-service-container user-service-img:v1.0
+
+
+Executing Docker Compose
+docker compose up -d
+
+Docker compose + Rebuild image
+docker compose up -d --build
+
+Remove container
+docker compose down
+
+Remove container + remove anonymous volume (recommended)
+docker compose down -v
+
+
+Dev -> Prod

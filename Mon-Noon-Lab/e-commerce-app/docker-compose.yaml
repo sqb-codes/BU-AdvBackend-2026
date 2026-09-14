@@ -1,0 +1,27 @@
+services:
+  user-service:
+  # search for Dockerfile inside user-service
+  # we use build when we have to build custom image
+    build: ./user-service
+    ports:
+      - 5050:3000
+    environment:
+      - PORT=3000
+
+  mongo:
+  # build is not required here, because docker will pull image of mongodb from DockerHub
+    image: mongo
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=root
+      - MONGODB_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - mongo-db:/data/db
+
+# Creating this volume because the volume we created in volumes of mongodb services
+# needs to be declared. Because it's a named volume
+volumes:
+  mongo-db:
+
+
+
+
