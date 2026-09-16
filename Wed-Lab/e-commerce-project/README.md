@@ -18,3 +18,16 @@ docker run -d -p 4545:4545 -v "$(pwd)":/app --name userservice_container userser
 Make Read only docker app directory
 docker run -d -p 4545:4545 -v "$(pwd)":/app:ro --name userservice_container userservice:1.0
 
+
+Run docker compose:
+docker compose up -d
+
+Run compose + build again
+docker compose up -d --build
+
+
+Run dev environment
+docker compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d
+
+Run prod environment
+docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d

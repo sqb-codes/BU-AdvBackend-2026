@@ -1,0 +1,21 @@
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "4545:3000"
+    environment:
+      - PORT=3000
+
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    # Named volume
+    volumes:
+      - mongo-db:/data/db
+
+# We have to explicitly define named volumes here
+volumes:
+  mongo-db:
+
