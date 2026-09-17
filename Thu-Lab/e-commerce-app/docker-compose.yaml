@@ -3,10 +3,6 @@ services:
     build: ./user-service
     ports:
       - 9898:3000
-    # Anonymous Volume
-    volumes:
-      - ./user-service:/app:ro
-      - /app/node_modules
     environment:
       - PORT=3000
     
