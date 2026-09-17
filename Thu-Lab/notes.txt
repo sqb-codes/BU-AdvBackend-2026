@@ -28,8 +28,35 @@ docker exec -it userservice_container sh
 
 Bind mount
 For windows:
-docker run -d -p 9898:9898 -v (pwd):/app --name userservice_container userservice:1.0
+docker run -d -p 9898:9898 -v ${pwd}:/app --name userservice_container userservice:1.0
 
 For mac/linux
 docker run -d -p 9898:9898 -v "$(pwd)":/app --name userservice_container userservice:1.0
+
+
+What if we don't want to sync node_modules
+Solution - Anonymous Volume
+docker run -d -p 9898:9898 -v "$(pwd)":/app -v/app/node_modules --name userservice_container userservice:1.0
+
+
+What if we create or delete something inside docker then same thing will happen in our local. So we don't want that
+Solution: Read only bind mount
+docker run -d -p 9898:9898 -v "$(pwd)":/app:ro -v/app/node_modules --name userservice_container userservice:1.0
+
+==========================
+
+Executing docker compose
+docker compose up -d
+
+Down docker compose
+docker compose down
+
+
+Start dev environment:
+docker compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d --build
+
+Start prod environment:
+docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --build
+
+
 
