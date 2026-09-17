@@ -11,7 +11,12 @@ COPY package*.json ./
 
 # Install dependencies
 # RUN npm install
-RUN npm ci
+# RUN npm ci
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "development" ]; \
+    then npm install; \
+    else npm install --only=production; \
+    fi
 
 # Copy application source code
 COPY . .
@@ -20,4 +25,5 @@ COPY . .
 EXPOSE 3000
 
 # CMD ["executable"] - Runs the container
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
+CMD ["node", "app.js"]
