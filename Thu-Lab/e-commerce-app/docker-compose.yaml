@@ -1,0 +1,24 @@
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - 9898:3000
+    # Anonymous Volume
+    volumes:
+      - ./user-service:/app:ro
+      - /app/node_modules
+    environment:
+      - PORT=3000
+    
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    # Named volume
+    volumes:
+      - mongodb:/data/db
+
+# We have to define named volumes here
+volumes:
+  mongodb:
