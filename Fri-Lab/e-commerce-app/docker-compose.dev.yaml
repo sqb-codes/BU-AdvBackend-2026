@@ -1,0 +1,8 @@
+services:
+  user-service-fri:
+    # Anonymous volume
+    volumes:
+      - ./user-service:/app
+    environment:
+      - NODE_ENV=development
+    command: npm run dev

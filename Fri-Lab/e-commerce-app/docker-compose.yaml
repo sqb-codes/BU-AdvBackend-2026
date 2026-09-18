@@ -1,0 +1,20 @@
+services:
+  user-service-fri:
+    build: ./user-service
+    ports:
+      - 9898:3000
+    environment:
+      - PORT=3000
+  
+  mongo:
+    image: mongo
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=root
+      - MONGODB_INITDB_ROOT_PASSWORD=root
+    # Named volume
+    volumes:
+      - mongo-db:/data/db
+
+# We have to initialize named volumes
+volumes:
+  mongo-db:
