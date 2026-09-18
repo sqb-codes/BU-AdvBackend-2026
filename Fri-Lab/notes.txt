@@ -1,0 +1,65 @@
+1. mkdir e-commerce-app
+2. cd e-commerce-app
+3. mkdir user-service
+4. cd user-service
+5. npm init -y
+6. npm install express nodemon mongoose dotenv cors
+7. Create one file app.js (to maintain server)
+8. Create .env and put PORT no...
+9. Create Dockerfile
+10. Open terminal and run these commands:
+Show all processes
+docker ps -a
+
+Build a new image
+docker build -t userservice:1.0 .
+-t = tag - we give a name to our image
+
+
+Now let's run the container
+docker run -d -p 9898:9898 --name userservice_container userservice:1.0
+-d = detach mode
+-p = port forwarding
+--name = container name
+
+To enter into interactive shell of container:
+docker exec -it userservice_container sh
+
+
+Bind mount
+For windows:
+docker run -d -p 9898:9898 -v ${pwd}:/app --name userservice_container userservice:1.0
+
+For mac/linux
+docker run -d -p 9898:9898 -v "$(pwd)":/app --name userservice_container userservice:1.0
+
+Read only docker environment
+docker run -d -p 9898:9898 -v "$(pwd)":/app:ro --name userservice_container userservice:1.0
+
+
+What if we don't want to sync node_modules
+Solution - Anonymous Volume
+docker run -d -p 9898:9898 -v "$(pwd)":/app -v /app/node_modules --name userservice_container userservice:1.0
+
+
+What if we create or delete something inside docker then same thing will happen in our local. So we don't want that
+Solution: Read only bind mount
+docker run -d -p 9898:9898 -v "$(pwd)":/app:ro -v/app/node_modules --name userservice_container userservice:1.0
+
+==========================
+
+Executing docker compose
+docker compose up -d
+
+Down docker compose
+docker compose down
+
+
+Start dev environment:
+docker compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d --build
+
+Start prod environment:
+docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --build
+
+
+
