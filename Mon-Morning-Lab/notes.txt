@@ -1,23 +1,23 @@
-mkdir e-commerce-app
-cd e-commerce-app
-cd user-service
-npm init -y
-npm install express mongoose dotenv nodemon
+Start docker compose
+docker compose up -d
 
-Build Image
-docker build -t user-service-img:1.0 .
+Start docker compose and rebuild image
+docker compose up -d --build
 
-Run container
-docker run -d -p 4949:4949 --name user-service-container user-service-img:1.0
+For starting dev env:
+docker compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d
 
-docker ps
-docker ps -a
+For starting prod env:
+docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d
 
-docker exec -it user-service-container sh
+Re-build image with docker compose:
+docker compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d --build
 
-Bind mount volumes
-For windows:
-docker run -d -p 4949:4949 -v ${PWD}:/app --name user-service-container user-service-img:1.0
+Open container shell in terminal:
+docker exec -it container_name sh
 
-For mac/linux:
-docker run -d -p 4949:4949 -v "$(pwd)":/app --name user-service-container user-service-img:1.0
+Open mongodb shell in terminal
+docker exec -it e-commerce-app-mongo-1 sh
+
+Connect with mongodb
+mongosh -u root -p
