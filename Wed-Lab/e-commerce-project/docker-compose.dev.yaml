@@ -6,4 +6,4 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-    command: npm run dev
+    command: ["sh", "-c", "npm ci --include=dev && exec npm run dev"]

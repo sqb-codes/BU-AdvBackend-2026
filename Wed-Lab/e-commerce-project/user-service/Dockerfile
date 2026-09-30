@@ -9,14 +9,19 @@ COPY package*.json ./
 
 # Install dependencies
 # Why ci - because Docker can reuse the dependency layer from cache
-RUN npm ci
+# RUN npm ci
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "development" ]; \
+    then npm ci; \
+    else npm install --only=production; \
+    fi
 
 # Copy rest of the application
 COPY . .
 
-# Application listens on PORT-4545
-EXPOSE 4545
+# Application listens on PORT-3000
+EXPOSE 3000
 
 # Start the application
-CMD ["npm", "run", "dev"]
-
+# CMD ["npm", "run", "dev"]
+CMD ["node", "server.js"]

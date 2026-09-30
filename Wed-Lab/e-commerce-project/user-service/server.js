@@ -1,15 +1,35 @@
-const express = require("express");
-const dotenv = require("dotenv")
-dotenv.config()
+require("dotenv").config();
 
-const app = express();
+const mongoose = require("mongoose");
+const app = require("./app");
+const connectDB = require("./config/db");
+const { getJwtSecret } = require("./middlewares/auth");
 
-app.get("/", (req, res) => {
-    res.send("<h1>Hello, welcome to Docker----</h1>");
-})
+async function startServer() {
+  getJwtSecret();
+  await connectDB();
 
-const PORT = process.env.PORT || 4545;
+  const port = Number(process.env.PORT || 3000);
+  const server = app.listen(port, () => {
+    console.log(`User service listening on port ${port}`);
+  });
 
-app.listen(PORT, () => {
-    console.log(`Server Started at PORT : ${PORT}`)
-})
+  async function shutdown(signal) {
+    console.log(`${signal} received; shutting down user service`);
+    server.close(async (error) => {
+      if (error) {
+        console.error("HTTP server shutdown failed:", error);
+        process.exitCode = 1;
+      }
+      await mongoose.disconnect();
+    });
+  }
+
+  process.once("SIGINT", () => shutdown("SIGINT"));
+  process.once("SIGTERM", () => shutdown("SIGTERM"));
+}
+
+startServer().catch((error) => {
+  console.error("User service startup failed:", error);
+  process.exitCode = 1;
+});
