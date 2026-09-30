@@ -80,3 +80,110 @@ Implementation
 1. mkdir url-shortner-monolith
 2. cd url-shortner-monolith
 3. npm init -y
+
+
+What we have achieved:
+1. Layered architecture
+2. SOLID-friendly structure
+3. Microservices-ready boundaries
+
+===============================
+
+Redis
+- stands for Remote dictionary server
+
+Use cases of Redis:
+- Cache
+- database
+- session storage
+- message broker
+- real-time data store
+- pub/sub system
+- distributed lock system/manager
+- leader election
+- rate limiter
+
+Redis keeps data primarily in memory, which allows for extremely fast read and write operations compared to traditional disk-based databases.
+Traditional databases like MySQL, PostgreSQL, MongoDB are generally designed around persistent storage.
+
+
+For example:
+- Imagine an e-commerce application with:
+10,000 request/second
+
+- if a large percentage of those requests might repeatedly ask for same information (e.g., product details), hitting the database every time can become a bottleneck.
+
+Without caching:
+10,000 requests hit the database per second
+
+With caching (e.g., using Redis):
+- Frequently requested data is stored in the cache
+- Only cache misses hit the database
+- Reduces load on the database and improves response time
+
+
+1. Check Redis
+2. If data exists -> return it
+3. If data does not exist -> fetch from database and store in Redis
+4. Return the data to the client
+
+This is known as Cache-Aside pattern.
+
+
+docker run -d -p 6379:6379 --name redis redis
+
+npm install redis
+
+Add Redis Config Layer
+
+===========================
+
+Load Simulation + Horizontal Scaling
+
+- Run multiple copies of our Backend
+- Put a load balancer in front
+- Simulate traffic
+- Observer how Redis + stateless APIs work
+
+Main idea is that each backend is:
+- Identical
+- Stateless
+- Disposable
+
+How to run multiple instances?
+- Using pm2
+
+Common Commands
+Install globally: 
+npm install pm2@latest -g
+Start an app: pm2 start app.js
+List processes: pm2 list
+Monitor processes: pm2 monit
+Stop an app: pm2 stop <app_name>
+
+Run multiple instances:
+pm2 start server.js -i 5
+-i 5 : start 5 backend instances
+
+
+PORT=8181 pm2 start server.js --name server-8181
+PORT=8182 pm2 start server.js --name server-8182
+PORT=8183 pm2 start server.js --name server-8183
+PORT=8184 pm2 start server.js --name server-8184
+PORT=8185 pm2 start server.js --name server-8185
+
+Now Add Load Balancer
+- Use NGINX
+
+How to run NGINX ?
+docker run -p 8080:8080 -v "$(pwd)"/nginx.conf:/etc/nginx/nginx.conf nginx
+
+
+Performe Load Testing
+- Use Apache Bench
+
+1. Install apache2-utils
+2. ab -n 100000 -c 50 http://localhost:8080/health
+-n = number of requests
+-c = concurrent users
+
